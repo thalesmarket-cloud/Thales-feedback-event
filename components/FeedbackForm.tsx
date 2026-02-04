@@ -74,7 +74,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <div className="w-full max-w-3xl pb-24">
+    <div className="w-full max-w-3xl pb-24 opacity-100 visible">
       <Header />
 
       <form onSubmit={handleSubmit} className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-14 border border-slate-100">

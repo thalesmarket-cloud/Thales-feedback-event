@@ -63,34 +63,36 @@ const App: React.FC = () => {
         </button>
       </div>
 
-      {view === 'form' && <FeedbackForm onSubmit={handleFeedbackSubmit} />}
+      <div className="w-full flex justify-center">
+        {view === 'form' && <FeedbackForm onSubmit={handleFeedbackSubmit} />}
 
-      {view === 'success' && (
-        <div className="max-w-md w-full bg-white rounded-3xl p-12 shadow-2xl text-center animate-in fade-in zoom-in duration-500">
-          <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-8">
-            <svg className="w-10 h-10 text-[#0075B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-            </svg>
+        {view === 'success' && (
+          <div className="max-w-md w-full bg-white rounded-3xl p-12 shadow-2xl text-center">
+            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-8">
+              <svg className="w-10 h-10 text-[#0075B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4">Merci pour votre retour !</h2>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              Votre avis est précieux pour nous. Il nous permet d'améliorer continuellement l'expérience Thales Informatique.
+            </p>
+            <button 
+              onClick={() => setView('form')}
+              className="inline-flex items-center justify-center px-8 py-3 bg-[#0075B8] text-white rounded-xl font-semibold hover:bg-[#19B4E6] transition-all shadow-lg"
+            >
+              Fermer
+            </button>
+            <p className="mt-6 text-sm text-slate-400 font-medium">À très bientôt.</p>
           </div>
-          <h2 className="text-2xl font-bold text-slate-800 mb-4">Merci pour votre retour !</h2>
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Votre avis est précieux pour nous. Il nous permet d'améliorer continuellement l'expérience Thales Informatique.
-          </p>
-          <button 
-            onClick={() => setView('form')}
-            className="inline-flex items-center justify-center px-8 py-3 bg-[#0075B8] text-white rounded-xl font-semibold hover:bg-[#19B4E6] transition-all shadow-lg"
-          >
-            Fermer
-          </button>
-          <p className="mt-6 text-sm text-slate-400 font-medium">À très bientôt.</p>
-        </div>
-      )}
+        )}
 
-      {view === 'admin' && (
-        <PasswordGate>
-          <Dashboard feedbacks={feedbacks} onBack={() => setView('form')} />
-        </PasswordGate>
-      )}
+        {view === 'admin' && (
+          <PasswordGate>
+            <Dashboard feedbacks={feedbacks} onBack={() => setView('form')} />
+          </PasswordGate>
+        )}
+      </div>
     </div>
   );
 };
