@@ -23,9 +23,6 @@ export interface Feedback {
   improvements: string;
   // Section F
   recommendation: Recommendation;
-  // Section G
-  contactMe: boolean;
-  contactEmail?: string;
 }
 
 export interface Stats {
@@ -34,5 +31,4 @@ export interface Stats {
   avgOrg: number; // Moyenne de Section C
   avgContent: number; // Moyenne de Section D
   recommendationDistribution: { name: string; value: number }[];
-  contactLeads: number;
 }

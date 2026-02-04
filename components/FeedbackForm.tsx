@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import Header from './Header';
 import { COLORS } from '../constants';
 import { Recommendation } from '../types';
-// Fix: Added ShieldCheck and Target to the main import list
-import { Star, ChevronRight, User, Building, Mail, CheckCircle, Info, Settings, Heart, MessageCircle, ShieldCheck, Target } from 'lucide-react';
+import { Star, ChevronRight, User, Building, CheckCircle, Info, Settings, Heart, MessageCircle, ShieldCheck, Target } from 'lucide-react';
 
 interface FeedbackFormProps {
   onSubmit: (feedback: any) => void;
@@ -17,8 +16,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
     orgRating: 0, logisticsRating: 0, timingRating: 0,
     relevanceRating: 0, clarityRating: 0, interestRating: 0,
     mostAppreciated: '', improvements: '',
-    recommendation: '' as Recommendation,
-    contactMe: false, contactEmail: ''
+    recommendation: '' as Recommendation
   });
 
   const [error, setError] = useState('');
@@ -33,7 +31,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
     if (!formData.orgRating || !formData.logisticsRating || !formData.timingRating) return "L'évaluation de l'organisation est incomplète.";
     if (!formData.relevanceRating || !formData.clarityRating || !formData.interestRating) return "L'évaluation du contenu est incomplète.";
     if (!formData.recommendation) return "Veuillez indiquer si vous recommanderiez nos événements.";
-    if (formData.contactMe && !formData.contactEmail && !formData.email) return "Veuillez renseigner votre email pour être recontacté.";
     return null;
   };
 
@@ -190,37 +187,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
               {opt}
             </button>
           ))}
-        </div>
-
-        {/* Section G : Contact futur */}
-        <div className={`p-8 rounded-[2rem] border-2 border-dashed transition-all duration-500 mb-14 ${formData.contactMe ? 'border-[#0076B9] bg-blue-50/30' : 'border-slate-200 bg-slate-50/30'}`}>
-          <label className="flex items-start space-x-4 cursor-pointer group">
-            <div className={`mt-1 w-7 h-7 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${formData.contactMe ? 'bg-[#0076B9] border-[#0076B9] scale-110 shadow-lg' : 'bg-white border-slate-300 group-hover:border-[#0076B9]'}`}>
-              {formData.contactMe && <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7"/></svg>}
-            </div>
-            <input 
-              type="checkbox" className="hidden"
-              checked={formData.contactMe} onChange={e => setFormData({...formData, contactMe: e.target.checked})}
-            />
-            <div className="space-y-1">
-              <span className="text-slate-700 font-black text-sm uppercase tracking-tight group-hover:text-[#0076B9] transition-colors leading-tight">Je souhaite être contacté pour en savoir plus sur les solutions de Thalès Informatique</span>
-              <p className="text-xs text-slate-400 font-medium">Un expert reviendra vers vous sous 48h.</p>
-            </div>
-          </label>
-
-          {formData.contactMe && (
-            <div className="mt-8 animate-in zoom-in-95 fade-in duration-300">
-              <div className="relative group">
-                <Mail className="absolute left-4 top-4 w-5 h-5 text-slate-400 group-focus-within:text-[#0076B9]" />
-                <input 
-                  type="email" placeholder="Votre adresse email professionnelle (obligatoire)"
-                  className="w-full pl-12 pr-4 py-4 bg-white border-2 border-[#0076B9]/20 rounded-2xl focus:border-[#0076B9] outline-none transition-all font-bold shadow-sm"
-                  value={formData.contactEmail} onChange={e => setFormData({...formData, contactEmail: e.target.value})}
-                  required
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         <button
