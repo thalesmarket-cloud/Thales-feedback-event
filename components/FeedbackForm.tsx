@@ -48,7 +48,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   const SectionTitle = ({ children, icon: Icon, sub }: any) => (
     <div className="mb-8 mt-12 first:mt-0">
       <div className="flex items-center space-x-3 mb-2">
-        <div className="p-2.5 bg-blue-50 text-[#0076B9] rounded-xl">
+        <div className="p-2.5 bg-blue-50 text-[#0075B8] rounded-xl">
           <Icon className="w-5 h-5" />
         </div>
         <h3 className="text-xl font-bold text-slate-800 tracking-tight">{children}</h3>
@@ -74,13 +74,13 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <div className="w-full max-w-3xl animate-in fade-in slide-in-from-bottom-6 duration-1000 pb-24">
+    <div className="w-full max-w-3xl pb-24">
       <Header />
 
       <form onSubmit={handleSubmit} className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-14 border border-slate-100">
         
         {error && (
-          <div className="mb-10 p-5 bg-red-50 border border-red-100 text-red-600 rounded-3xl flex items-start space-x-3 animate-in slide-in-from-top-4">
+          <div className="mb-10 p-5 bg-red-50 border border-red-100 text-red-600 rounded-3xl flex items-start space-x-3">
             <Info className="w-5 h-5 mt-0.5 flex-shrink-0" />
             <span className="text-sm font-bold">{error}</span>
           </div>
@@ -92,10 +92,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nom & Prénom</label>
             <div className="relative group">
-              <User className="absolute left-4 top-4 w-5 h-5 text-slate-300 group-focus-within:text-[#0076B9] transition-colors" />
+              <User className="absolute left-4 top-4 w-5 h-5 text-slate-300 group-focus-within:text-[#0075B8] transition-colors" />
               <input 
                 type="text" placeholder="Ex: Marc Lefebvre"
-                className="w-full pl-12 pr-4 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0076B9] focus:bg-white outline-none transition-all font-medium"
+                className="w-full pl-12 pr-4 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all font-medium"
                 value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
               />
             </div>
@@ -103,10 +103,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Entreprise</label>
             <div className="relative group">
-              <Building className="absolute left-4 top-4 w-5 h-5 text-slate-300 group-focus-within:text-[#0076B9] transition-colors" />
+              <Building className="absolute left-4 top-4 w-5 h-5 text-slate-300 group-focus-within:text-[#0075B8] transition-colors" />
               <input 
                 type="text" placeholder="Thales, etc."
-                className="w-full pl-12 pr-4 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0076B9] focus:bg-white outline-none transition-all font-medium"
+                className="w-full pl-12 pr-4 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all font-medium"
                 value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
               />
             </div>
@@ -155,7 +155,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           <div className="space-y-3">
             <label className="text-sm font-bold text-slate-600 ml-1">Qu’avez-vous le plus apprécié lors de cet événement ?</label>
             <textarea 
-              className="w-full p-5 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0076B9] focus:bg-white outline-none transition-all h-32 resize-none font-medium placeholder-slate-300"
+              className="w-full p-5 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all h-32 resize-none font-medium placeholder-slate-300"
               placeholder="Ex: La démonstration de l'IA embarquée..."
               value={formData.mostAppreciated} onChange={e => setFormData({...formData, mostAppreciated: e.target.value})}
             />
@@ -163,7 +163,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           <div className="space-y-3">
             <label className="text-sm font-bold text-slate-600 ml-1">Quels points pourraient être améliorés selon vous ?</label>
             <textarea 
-              className="w-full p-5 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0076B9] focus:bg-white outline-none transition-all h-32 resize-none font-medium placeholder-slate-300"
+              className="w-full p-5 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all h-32 resize-none font-medium placeholder-slate-300"
               placeholder="Ex: Plus de temps pour les questions-réponses..."
               value={formData.improvements} onChange={e => setFormData({...formData, improvements: e.target.value})}
             />
@@ -180,7 +180,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
               onClick={() => setFormData({...formData, recommendation: opt})}
               className={`py-5 rounded-2xl font-black text-sm uppercase tracking-widest border-2 transition-all ${
                 formData.recommendation === opt 
-                ? 'border-[#0076B9] bg-blue-50 text-[#0076B9] shadow-inner' 
+                ? 'border-[#0075B8] bg-blue-50 text-[#0075B8] shadow-inner' 
                 : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
               }`}
             >
