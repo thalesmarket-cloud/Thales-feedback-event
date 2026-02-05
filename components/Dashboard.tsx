@@ -6,14 +6,15 @@ import {
 } from 'recharts';
 import { Feedback, Stats } from '../types';
 import { COLORS } from '../constants';
-import { Download, Users, Star, ArrowLeft, Heart, MessageSquare, Target } from 'lucide-react';
+import { Download, Users, Star, ArrowLeft, Heart, MessageSquare, Target, Trash2 } from 'lucide-react';
 
 interface DashboardProps {
   feedbacks: Feedback[];
   onBack: () => void;
+  onReset: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
+const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack, onReset }) => {
   const calculateStats = (): Stats => {
     const total = feedbacks.length;
     if (total === 0) return { 
@@ -48,9 +49,19 @@ const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
 
   const stats = calculateStats();
 
+  const handleResetClick = () => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer définitivement TOUTES les statistiques ? Cette action est irréversible.")) {
+      onReset();
+    }
+  };
+
   const exportCSV = () => {
+    if (feedbacks.length === 0) {
+      alert("Aucune donnée à exporter.");
+      return;
+    }
     const headers = "ID,Nom,Entreprise,Satisfaction,Moyenne Org,Moyenne Contenu,Recommandation,Remarque\n";
-    const rows = feedbacks.map(f => `${f.id},${f.name || '-'},${f.company || '-'},${f.globalSatisfaction},${((f.orgRating+f.logisticsRating+f.timingRating)/3).toFixed(1)},${((f.relevanceRating+f.clarityRating+f.interestRating)/3).toFixed(1)},${f.recommendation},"${f.mostAppreciated.replace(/"/g, '""')}"`).join("\n");
+    const rows = feedbacks.map(f => `${f.id},${f.name || '-'},${f.company || '-'},${f.globalSatisfaction},${((f.orgRating+f.logisticsRating+f.timingRating)/3).toFixed(1)},${((f.relevanceRating+f.clarityRating+f.interestRating)/3).toFixed(1)},${f.recommendation},"${(f.mostAppreciated || '').replace(/"/g, '""')}"`).join("\n");
     const csvContent = "data:text/csv;charset=utf-8," + headers + rows;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -71,13 +82,22 @@ const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
           <h1 className="text-3xl font-bold text-white tracking-tight">Analytics JPO Thales</h1>
           <p className="text-blue-100/80 font-medium">Bilan de l'amélioration continue</p>
         </div>
-        <button 
-          onClick={exportCSV}
-          className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all shadow-lg font-bold"
-        >
-          <Download className="w-5 h-5" />
-          <span>Exporter Data</span>
-        </button>
+        <div className="flex space-x-3">
+          <button 
+            onClick={handleResetClick}
+            className="flex items-center space-x-2 bg-red-500/20 backdrop-blur-md border-2 border-red-500/30 text-red-100 px-6 py-3 rounded-2xl hover:bg-red-500/40 transition-all shadow-lg font-bold"
+          >
+            <Trash2 className="w-5 h-5" />
+            <span>Réinitialiser</span>
+          </button>
+          <button 
+            onClick={exportCSV}
+            className="flex items-center space-x-2 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all shadow-lg font-bold"
+          >
+            <Download className="w-5 h-5" />
+            <span>Exporter Data</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
@@ -86,95 +106,112 @@ const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
         <KPICard icon={<Target className="w-5 h-5 text-indigo-600" />} label="Pertinence Contenu" value={`${stats.avgContent.toFixed(1)}/5`} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold text-slate-800 mb-8 flex items-center">
-              <span className="w-1 h-6 bg-[#0075B8] rounded-full mr-3"></span>
-              Performance par Pôle
-            </h3>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={[
-                  { name: 'Satisfaction', val: stats.avgSatisfaction },
-                  { name: 'Organisation', val: stats.avgOrg },
-                  { name: 'Contenu', val: stats.avgContent }
-                ]} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-                  <XAxis type="number" domain={[0, 5]} hide />
-                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontWeight: 'bold', fill: '#64748b' }} />
-                  <Tooltip 
-                    cursor={{ fill: '#f8fafc' }} 
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  />
-                  <Bar dataKey="val" fill={COLORS.primary} radius={[0, 8, 8, 0]} barSize={40} />
-                </BarChart>
-              </ResponsiveContainer>
+      {stats.total > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+              <h3 className="text-lg font-bold text-slate-800 mb-8 flex items-center">
+                <span className="w-1 h-6 bg-[#0075B8] rounded-full mr-3"></span>
+                Performance par Pôle
+              </h3>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={[
+                    { name: 'Satisfaction', val: stats.avgSatisfaction },
+                    { name: 'Organisation', val: stats.avgOrg },
+                    { name: 'Contenu', val: stats.avgContent }
+                  ]} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                    <XAxis type="number" domain={[0, 5]} hide />
+                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontWeight: 'bold', fill: '#64748b' }} />
+                    <Tooltip 
+                      cursor={{ fill: '#f8fafc' }} 
+                      contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                    />
+                    <Bar dataKey="val" fill={COLORS.primary} radius={[0, 8, 8, 0]} barSize={40} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
 
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold text-slate-800 mb-8 flex items-center">
-              <span className="w-1 h-6 bg-[#0075B8] rounded-full mr-3"></span>
-              Ce qu'ils ont le plus apprécié
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {feedbacks.slice().reverse().slice(0, 4).map(f => (
-                <div key={f.id} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 relative group">
-                  <Heart className="absolute top-4 right-4 w-4 h-4 text-rose-300 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <p className="text-sm text-slate-700 italic leading-relaxed mb-4">"{f.mostAppreciated || "N/A"}"</p>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-[#0075B8] text-white flex items-center justify-center rounded-full text-[10px] font-bold uppercase">
-                      {(f.name || "A")[0]}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+              <h3 className="text-lg font-bold text-slate-800 mb-8 flex items-center">
+                <span className="w-1 h-6 bg-[#0075B8] rounded-full mr-3"></span>
+                Ce qu'ils ont le plus apprécié
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {feedbacks.filter(f => f.mostAppreciated).slice().reverse().slice(0, 4).map(f => (
+                  <div key={f.id} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 relative group">
+                    <Heart className="absolute top-4 right-4 w-4 h-4 text-rose-300 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <p className="text-sm text-slate-700 italic leading-relaxed mb-4">"{f.mostAppreciated}"</p>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-6 h-6 bg-[#0075B8] text-white flex items-center justify-center rounded-full text-[10px] font-bold uppercase">
+                        {(f.name || "A")[0]}
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                        {f.name || "Participant Anonyme"} • {f.company || "Indépendant"}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                      {f.name || "Participant Anonyme"} • {f.company || "Indépendant"}
-                    </span>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-8">
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold text-slate-800 mb-8">Recommandation</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={stats.recommendationDistribution}
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={8}
-                    dataKey="value"
-                  >
-                    {[COLORS.primary, COLORS.secondary, '#cbd5e1'].map((c, i) => (
-                      <Cell key={i} fill={c} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend verticalAlign="bottom" iconType="circle" />
-                </PieChart>
-              </ResponsiveContainer>
+                ))}
+                {feedbacks.filter(f => f.mostAppreciated).length === 0 && (
+                  <p className="text-slate-400 italic text-sm p-4">Aucun commentaire pour le moment.</p>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="p-8 rounded-3xl shadow-xl text-white" style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})` }}>
-            <MessageSquare className="w-10 h-10 mb-6 text-white/50" />
-            <h4 className="text-xl font-bold mb-2">Améliorations suggérées</h4>
-            <p className="text-sm text-white/80 mb-6">Points de friction identifiés pour la prochaine édition.</p>
-            <div className="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-              {feedbacks.filter(f => f.improvements).map(f => (
-                <div key={f.id} className="text-xs bg-white/10 p-3 rounded-lg border border-white/5">
-                  {f.improvements}
-                </div>
-              ))}
+          <div className="space-y-8">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+              <h3 className="text-lg font-bold text-slate-800 mb-8">Recommandation</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={stats.recommendationDistribution}
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={8}
+                      dataKey="value"
+                    >
+                      {[COLORS.primary, COLORS.secondary, '#cbd5e1'].map((c, i) => (
+                        <Cell key={i} fill={c} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" iconType="circle" />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="p-8 rounded-3xl shadow-xl text-white" style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})` }}>
+              <MessageSquare className="w-10 h-10 mb-6 text-white/50" />
+              <h4 className="text-xl font-bold mb-2">Améliorations suggérées</h4>
+              <p className="text-sm text-white/80 mb-6">Points de friction identifiés pour la prochaine édition.</p>
+              <div className="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                {feedbacks.filter(f => f.improvements).length > 0 ? (
+                  feedbacks.filter(f => f.improvements).map(f => (
+                    <div key={f.id} className="text-xs bg-white/10 p-3 rounded-lg border border-white/5">
+                      {f.improvements}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-white/50 italic">Aucune suggestion reçue.</div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white/10 backdrop-blur-md rounded-[2.5rem] p-20 text-center border-2 border-white/10">
+          <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Users className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Aucune donnée disponible</h2>
+          <p className="text-blue-100">Les statistiques s'afficheront ici dès que les premiers avis seront envoyés.</p>
+        </div>
+      )}
     </div>
   );
 };

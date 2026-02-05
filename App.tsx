@@ -17,6 +17,8 @@ const App: React.FC = () => {
       if (saved) {
         setFeedbacks(JSON.parse(saved));
       } else {
+        // Optionnel : ne pas mettre de dummy data par défaut pour une prod réelle
+        // Mais gardé ici pour la démo visuelle initiale
         const dummy: Feedback[] = [
           { 
             id: '1', timestamp: new Date().toISOString(), 
@@ -52,6 +54,11 @@ const App: React.FC = () => {
     setFeedbacks(updated);
     localStorage.setItem('thales_jpo_v2_feedbacks', JSON.stringify(updated));
     setView('success');
+  };
+
+  const handleResetFeedbacks = () => {
+    setFeedbacks([]);
+    localStorage.setItem('thales_jpo_v2_feedbacks', JSON.stringify([]));
   };
 
   return (
@@ -96,7 +103,11 @@ const App: React.FC = () => {
 
         {view === 'admin' && (
           <PasswordGate>
-            <Dashboard feedbacks={feedbacks} onBack={() => setView('form')} />
+            <Dashboard 
+              feedbacks={feedbacks} 
+              onBack={() => setView('form')} 
+              onReset={handleResetFeedbacks}
+            />
           </PasswordGate>
         )}
       </main>
