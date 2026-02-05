@@ -17,8 +17,6 @@ const App: React.FC = () => {
       if (saved) {
         setFeedbacks(JSON.parse(saved));
       } else {
-        // Optionnel : ne pas mettre de dummy data par défaut pour une prod réelle
-        // Mais gardé ici pour la démo visuelle initiale
         const dummy: Feedback[] = [
           { 
             id: '1', timestamp: new Date().toISOString(), 
@@ -62,12 +60,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 relative" style={{ backgroundColor: COLORS.primary }}>
+    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4 relative bg-transparent">
       {/* Admin Quick Link */}
       <div className="fixed top-4 right-4 z-50">
         <button 
           onClick={() => setView(view === 'admin' ? 'form' : 'admin')}
-          className="bg-white/20 backdrop-blur-md p-2 rounded-full shadow-lg border border-white/30 text-white hover:bg-white/40 transition-all flex items-center justify-center"
+          className="bg-white/10 backdrop-blur-md p-2 rounded-full shadow-lg border border-white/20 text-white hover:bg-white/30 transition-all flex items-center justify-center"
           title="Administration"
         >
           <ShieldCheck className="w-5 h-5" />
@@ -78,7 +76,7 @@ const App: React.FC = () => {
         {view === 'form' && <FeedbackForm onSubmit={handleFeedbackSubmit} />}
 
         {view === 'success' && (
-          <div className="max-w-md w-full bg-white rounded-3xl p-12 shadow-2xl text-center mt-10">
+          <div className="max-w-md w-full bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-12 shadow-2xl text-center mt-10 border border-white/20">
             <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-8 text-[#0075B8]">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
@@ -86,18 +84,15 @@ const App: React.FC = () => {
             </div>
             <h2 className="text-2xl font-bold text-slate-800 mb-4">Merci pour votre retour !</h2>
             <p className="text-slate-600 mb-8 leading-relaxed">
-              Votre avis est précieux pour nous. Il nous permet d'améliorer continuellement l'expérience Thales Informatique.
+              Votre avis est précieux pour nous. Il nous permet d'améliorer continuellement l'expérience Thales.
             </p>
             <button 
               onClick={() => setView('form')}
-              className="inline-flex items-center justify-center px-8 py-3 text-white rounded-xl font-semibold transition-all shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-3 text-white rounded-xl font-semibold transition-all shadow-lg hover:scale-105 active:scale-95"
               style={{ backgroundColor: COLORS.primary }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = COLORS.secondary)}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = COLORS.primary)}
             >
               Fermer
             </button>
-            <p className="mt-6 text-sm text-slate-400 font-medium">À très bientôt.</p>
           </div>
         )}
 
