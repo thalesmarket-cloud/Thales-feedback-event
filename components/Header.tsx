@@ -2,16 +2,16 @@
 import React from 'react';
 
 const Header: React.FC = () => {
-  const logoUrl = "https://thales.ma/wp-content/uploads/2019/12/logo-thales2020-1.png";
+  const logoUrl = "https://i.ibb.co/p6F8sRrQ/Logo-Thales-White.png";
 
   return (
     <div className="text-center mb-10 w-full block">
       <div className="flex justify-center mb-6">
-        <div className="p-4 bg-white rounded-2xl shadow-xl border border-white/20 flex items-center justify-center overflow-hidden">
+        <div className="p-4 flex items-center justify-center overflow-hidden">
           <img 
             src={logoUrl} 
             alt="Thalès Informatique" 
-            className="max-h-12 w-auto object-contain"
+            className="max-h-24 w-auto object-contain drop-shadow-lg"
           />
         </div>
       </div>
