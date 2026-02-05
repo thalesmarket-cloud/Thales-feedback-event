@@ -25,7 +25,7 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ children }) => {
   if (isAuthenticated) return <>{children}</>;
 
   return (
-    <div className="max-w-md w-full animate-fade-in mt-12">
+    <div className="max-w-md w-full mt-12 opacity-100">
       <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-100 text-center">
         <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
           <Lock className="w-8 h-8" />

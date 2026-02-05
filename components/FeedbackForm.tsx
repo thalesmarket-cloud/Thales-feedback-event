@@ -74,7 +74,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <div className="w-full max-w-3xl pb-24 opacity-100 visible">
+    <div className="w-full max-w-3xl pb-24 opacity-100 block">
       <Header />
 
       <form onSubmit={handleSubmit} className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-14 border border-slate-100">
@@ -193,11 +193,9 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           type="submit"
           className="w-full py-6 rounded-3xl font-black text-white text-xl uppercase tracking-[0.2em] transition-all transform active:scale-95 shadow-2xl flex items-center justify-center space-x-4 group"
           style={{ backgroundColor: COLORS.primary }}
-          onMouseEnter={e => e.currentTarget.style.backgroundColor = COLORS.secondary}
-          onMouseLeave={e => e.currentTarget.style.backgroundColor = COLORS.primary}
         >
           <span>Envoyer mon feedback</span>
-          <ChevronRight className="w-7 h-7 group-hover:translate-x-1 transition-transform" />
+          <ChevronRight className="w-7 h-7" />
         </button>
 
         <div className="flex flex-col items-center space-y-2 mt-10">

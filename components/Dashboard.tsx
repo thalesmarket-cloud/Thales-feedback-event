@@ -61,7 +61,7 @@ const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
   };
 
   return (
-    <div className="w-full max-w-6xl animate-in fade-in duration-500 pb-20">
+    <div className="w-full max-w-6xl pb-20 opacity-100">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
           <button onClick={onBack} className="flex items-center text-blue-100 hover:text-white mb-2 transition-colors font-semibold text-sm">

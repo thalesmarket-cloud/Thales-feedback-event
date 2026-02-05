@@ -51,7 +51,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-12 px-4" style={{ backgroundColor: COLORS.primary }}>
+    <div className="min-h-screen w-full flex flex-col items-center py-12 px-4" style={{ backgroundColor: COLORS.primary }}>
       {/* Admin Quick Link */}
       <div className="fixed top-4 right-4 z-50">
         <button 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
         </button>
       </div>
 
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center items-start">
         {view === 'form' && <FeedbackForm onSubmit={handleFeedbackSubmit} />}
 
         {view === 'success' && (
