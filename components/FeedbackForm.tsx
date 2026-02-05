@@ -144,10 +144,19 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
         <SectionTitle icon={MessageCircle}>Expérience</SectionTitle>
         <div className="space-y-8 mb-12">
           <div className="space-y-3">
-            <label className="text-sm font-bold text-slate-600">Le plus apprécié ?</label>
+            <label className="text-sm font-bold text-slate-600">Qu'avez-vous le plus apprécié lors de cette journée ?</label>
             <textarea 
-              className="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] outline-none h-32 resize-none font-medium"
+              placeholder="Vos moments forts, les échanges, une démo particulière..."
+              className="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] outline-none h-24 resize-none font-medium placeholder:text-slate-300"
               value={formData.mostAppreciated} onChange={e => setFormData({...formData, mostAppreciated: e.target.value})}
+            />
+          </div>
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-600">Des pistes d'améliorations pour nos prochaines éditions ?</label>
+            <textarea 
+              placeholder="Points de friction, organisation, suggestions de nouveaux thèmes..."
+              className="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] outline-none h-24 resize-none font-medium placeholder:text-slate-300"
+              value={formData.improvements} onChange={e => setFormData({...formData, improvements: e.target.value})}
             />
           </div>
         </div>
