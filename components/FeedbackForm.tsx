@@ -93,7 +93,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
             <div className="relative group">
               <User className="absolute left-4 top-4 w-5 h-5 text-slate-300" />
               <input 
-                type="text" placeholder="Ex: Marc Lefebvre"
+                type="text" placeholder="Ex: Mohamed Berrada"
                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all font-medium"
                 value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
               />

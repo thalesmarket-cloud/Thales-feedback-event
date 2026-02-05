@@ -2,7 +2,7 @@
 import React from 'react';
 
 const Header: React.FC = () => {
-  const logoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Thales_Group_Logo.svg/1280px-Thales_Group_Logo.svg.png";
+  const logoUrl = "https://thales.ma/wp-content/uploads/2019/12/logo-thales2020-1.png";
 
   return (
     <div className="text-center mb-10 w-full block">
