@@ -104,7 +104,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
             <div className="relative group">
               <Building className="absolute left-4 top-4 w-5 h-5 text-slate-300" />
               <input 
-                type="text" placeholder="Thales, etc."
+                type="text" placeholder="Ex: Thalès informatique"
                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-[#0075B8] focus:bg-white outline-none transition-all font-medium"
                 value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
               />
@@ -153,20 +153,23 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
         </div>
 
         <SectionTitle icon={Target}>Recommandation</SectionTitle>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          {(['Oui', 'Peut-être', 'Non'] as Recommendation[]).map(opt => (
-            <button
-              key={opt} type="button"
-              onClick={() => setFormData({...formData, recommendation: opt})}
-              className={`py-4 rounded-xl font-bold border-2 transition-all ${
-                formData.recommendation === opt 
-                ? 'border-[#0075B8] bg-blue-50 text-[#0075B8]' 
-                : 'border-slate-100 bg-white text-slate-400'
-              }`}
-            >
-              {opt}
-            </button>
-          ))}
+        <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-12 text-center">
+          <p className="text-slate-800 font-bold text-lg mb-6">Souhaitez-vous recommander nos événements à vos proches ou collègues ?</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {(['Oui', 'Peut-être', 'Non'] as Recommendation[]).map(opt => (
+              <button
+                key={opt} type="button"
+                onClick={() => setFormData({...formData, recommendation: opt})}
+                className={`py-4 rounded-xl font-bold border-2 transition-all ${
+                  formData.recommendation === opt 
+                  ? 'border-[#0075B8] bg-blue-50 text-[#0075B8]' 
+                  : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
+                }`}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
@@ -174,7 +177,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           className="w-full py-6 rounded-3xl font-black text-white text-xl uppercase tracking-widest shadow-xl flex items-center justify-center space-x-4"
           style={{ backgroundColor: COLORS.primary }}
         >
-          <span>Envoyer</span>
+          <span>Envoyer mon avis</span>
           <ChevronRight className="w-6 h-6" />
         </button>
       </form>
