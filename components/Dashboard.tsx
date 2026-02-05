@@ -161,7 +161,7 @@ const Dashboard: React.FC<DashboardProps> = ({ feedbacks, onBack }) => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#0075B8] to-[#19B4E6] p-8 rounded-3xl shadow-xl text-white">
+          <div className="p-8 rounded-3xl shadow-xl text-white" style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})` }}>
             <MessageSquare className="w-10 h-10 mb-6 text-white/50" />
             <h4 className="text-xl font-bold mb-2">Améliorations suggérées</h4>
             <p className="text-sm text-white/80 mb-6">Points de friction identifiés pour la prochaine édition.</p>

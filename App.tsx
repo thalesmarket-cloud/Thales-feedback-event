@@ -83,7 +83,10 @@ const App: React.FC = () => {
             </p>
             <button 
               onClick={() => setView('form')}
-              className="inline-flex items-center justify-center px-8 py-3 bg-[#0075B8] text-white rounded-xl font-semibold hover:bg-[#19B4E6] transition-all shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-3 text-white rounded-xl font-semibold transition-all shadow-lg"
+              style={{ backgroundColor: COLORS.primary }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = COLORS.secondary)}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = COLORS.primary)}
             >
               Fermer
             </button>
